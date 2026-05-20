@@ -15,23 +15,43 @@ const server = http.createServer((req, res) => {
     <title>Resultados de Cálculos</title>
     <!-- inclusion de librerias externas para el diseño responsivo y estilos base -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- recursos visuales para la iconografia de la interfaz -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
+      /* definicion de variables de color para la gestion de temas */
+      :root { 
+          --bg-light: #f8fafc; 
+          --card-bg: #ffffff; 
+          --text-main: #1e293b !important; 
+      } 
+      
+      /* reconfiguracion de variables para el esquema de colores oscuro */
+      [data-bs-theme="dark"] { 
+          --bg-light: #0f172a; 
+          --card-bg: #1e293b; 
+          --text-main: #f8fafc !important; 
+      } 
+      
+      /* configuracion de transiciones globales para optimizar la experiencia visual */
+      * { 
+          transition: background-color 0.3s ease, color 0.3s ease !important; 
+      }
+
       body {
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: background-color 0.3s ease;
+        background-color: var(--bg-light);
       }
+      
       /* configuracion de estilos personalizados para los contenedores principales */
       .card {
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         border: none;
         border-radius: 15px;
         overflow: hidden;
+        background-color: var(--card-bg);
       }
+      
       /* diseño de la identidad visual mediante degradados corporativos */
       .header-section {
         background: linear-gradient(135deg, #0d6efd 0%, #00d2ff 100%);
@@ -39,6 +59,7 @@ const server = http.createServer((req, res) => {
         padding: 2rem;
         text-align: center;
       }
+      
       /* configuracion del sistema de posicionamiento para el control de temas */
       .theme-toggle {
         position: fixed;
@@ -46,15 +67,21 @@ const server = http.createServer((req, res) => {
         right: 20px;
         z-index: 1000;
       }
+
+      .btn-theme-toggle {
+        font-size: 1.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 50%;
+        line-height: 1;
+      }
     </style>
   </head>
-  <body class="bg-body-tertiary">
+  <body>
 
     <!-- interfaz de control para la alternancia entre esquemas de colores -->
     <div class="theme-toggle">
-      <button class="btn btn-outline-primary rounded-pill px-3" id="btnTema">
-        <i class="bi bi-moon-stars-fill" id="iconoTema"></i>
-        <span id="textoTema">modo oscuro</span>
+      <button id="boton-tema" class="btn btn-outline-primary btn-theme-toggle"> 
+          <span id="icono-tema">🌙</span> 
       </button>
     </div>
 
@@ -104,32 +131,34 @@ const server = http.createServer((req, res) => {
       </div>
     </div>
 
-    <!-- logica de cliente para la gestion de interactividad y estilos dinamicos -->
+    <!-- logica de cliente para la gestion de interactividad y persistencia de temas -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-      const btnTema = document.getElementById('btnTema');
-      const iconoTema = document.getElementById('iconoTema');
-      const textoTema = document.getElementById('textoTema');
-      const htmlTag = document.documentElement;
+      // mapeo de elementos del dom para la manipulacion dinamica
+      const dom = {
+        html: document.documentElement,
+        botonTema: document.getElementById('boton-tema'),
+        iconoTema: document.getElementById('icono-tema')
+      };
 
-      // controlador de eventos para la gestion dinamica del esquema de colores
-      btnTema.addEventListener('click', () => {
-        const temaActual = htmlTag.getAttribute('data-bs-theme');
-        
-        if (temaActual === 'light') {
-          // transicion al esquema de colores oscuro
-          htmlTag.setAttribute('data-bs-theme', 'dark');
-          iconoTema.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
-          textoTema.innerText = 'modo claro';
-          btnTema.classList.replace('btn-outline-primary', 'btn-outline-warning');
-        } else {
-          // reversion al esquema de colores claro
-          htmlTag.setAttribute('data-bs-theme', 'light');
-          iconoTema.classList.replace('bi-sun-fill', 'bi-moon-stars-fill');
-          textoTema.innerText = 'modo oscuro';
-          btnTema.classList.replace('btn-outline-warning', 'btn-outline-primary');
-        }
+      // funcion para aplicar el esquema de colores y actualizar la interfaz visual
+      const aplicarTema = (tema) => { 
+        dom.html.setAttribute('data-bs-theme', tema); // cambio de atributo bootstrap
+        dom.iconoTema.textContent = tema === 'dark' ? '☀️' : '🌙'; // actualizacion de iconografia
+        localStorage.setItem('p1-tema', tema); // persistencia de la preferencia en el navegador
+      }; 
+      
+      // controlador de eventos para gestionar la alternancia de temas mediante interaccion
+      dom.botonTema.addEventListener('click', () => { 
+        const actual = dom.html.getAttribute('data-bs-theme'); 
+        aplicarTema(actual === 'dark' ? 'light' : 'dark'); // ejecucion del cambio de estado
       });
+
+      // inicializacion del tema basado en la persistencia local previa
+      const temaGuardado = localStorage.getItem('p1-tema');
+      if (temaGuardado) {
+        aplicarTema(temaGuardado);
+      }
     </script>
   </body>
   </html>
