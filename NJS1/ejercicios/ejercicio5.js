@@ -16,25 +16,27 @@ const server = http.createServer((req, res) => {
     <!-- inclusion de librerias externas para el diseño responsivo y estilos base -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-      /* definicion de variables de color para la gestion de temas con tonalidades mas suaves */
+      /* definicion de variables de color para una transicion total entre temas */
       :root { 
-          --bg-light: #f1f5f9; 
+          --bg-color: #f8fafc; 
           --card-bg: #ffffff; 
-          --text-main: #334155 !important; 
-          --accent-color: #3b82f6;
+          --text-color: #1e293b; 
+          --border-color: #e2e8f0;
+          --header-gradient: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
       } 
       
-      /* reconfiguracion de variables para el esquema de colores oscuro con tonos slate */
+      /* reconfiguracion de todas las variables para el modo oscuro sin dejar partes blancas */
       [data-bs-theme="dark"] { 
-          --bg-light: #0f172a; 
+          --bg-color: #0f172a; 
           --card-bg: #1e293b; 
-          --text-main: #f1f5f9 !important; 
-          --accent-color: #60a5fa;
+          --text-color: #f1f5f9; 
+          --border-color: #334155;
+          --header-gradient: linear-gradient(135deg, #1e40af 0%, #0d9488 100%);
       } 
       
-      /* configuracion de transiciones globales para optimizar la experiencia visual */
+      /* configuracion de transiciones globales para suavizar el cambio de colores */
       * { 
-          transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease !important; 
+          transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease !important; 
       }
 
       body {
@@ -42,103 +44,117 @@ const server = http.createServer((req, res) => {
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: var(--bg-light);
-        color: var(--text-main);
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        margin: 0;
       }
       
-      /* configuracion de estilos personalizados para los contenedores principales */
+      /* diseño de la tarjeta contenedora con adaptacion automatica de colores */
       .card {
-        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-        border: 1px solid rgba(0,0,0,0.05);
-        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        border: 1px solid var(--border-color);
+        border-radius: 24px;
         overflow: hidden;
         background-color: var(--card-bg);
       }
       
-      /* diseño de la identidad visual mediante degradados mas suaves y modernos */
+      /* seccion de cabecera con gradiente adaptativo */
       .header-section {
-        background: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
+        background: var(--header-gradient);
         color: white;
-        padding: 2.5rem;
+        padding: 3rem 2rem;
         text-align: center;
       }
       
-      /* configuracion del sistema de posicionamiento para el control de temas */
+      /* sistema de control flotante para el cambio de tema */
       .theme-toggle {
         position: fixed;
-        top: 25px;
-        right: 25px;
+        top: 30px;
+        right: 30px;
         z-index: 1000;
       }
 
-      /* diseño del boton de tema: mas pequeño, perfectamente circular y minimalista */
+      /* diseño del boton segun especificacion: circular, borde fino y pequeño */
       .btn-theme-toggle {
-        width: 38px;
-        height: 38px;
-        padding: 0;
+        width: 42px;
+        height: 42px;
+        background: transparent;
+        border: 1px solid var(--border-color);
+        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 50%;
-        border: 1px solid var(--accent-color);
-        background-color: var(--card-bg);
-        color: var(--accent-color);
-        font-size: 1.1rem;
         cursor: pointer;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        padding: 0;
+        color: var(--text-color);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       }
 
       .btn-theme-toggle:hover {
-        transform: scale(1.1);
-        background-color: var(--accent-color);
-        color: white;
+        border-color: #3b82f6;
+        transform: scale(1.05);
+      }
+
+      /* ajuste de la tabla para que sea totalmente oscura en su modo correspondiente */
+      .table {
+        color: var(--text-color);
+        border-color: var(--border-color);
+      }
+      
+      .table thead th {
+        border-bottom: 2px solid var(--border-color);
+        color: var(--text-color);
+        opacity: 0.7;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.05em;
       }
     </style>
   </head>
   <body>
 
-    <!-- interfaz de control para la alternancia entre esquemas de colores -->
+    <!-- boton de control de tema minimalista circular -->
     <div class="theme-toggle">
       <button id="boton-tema" class="btn-theme-toggle" title="cambiar tema"> 
-          <span id="icono-tema">🌙</span> 
+          <span id="icono-tema" style="font-size: 1.2rem;">🌙</span> 
       </button>
     </div>
 
     <div class="container my-5">
       <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-8 col-lg-6">
           <div class="card">
-            <!-- seccion de encabezado que define el proposito del ejercicio -->
+            <!-- encabezado principal con tipografia refinada -->
             <div class="header-section">
-              <h1 class="display-6 fw-bold mb-0">Resultados del Ejercicio 5</h1>
-              <p class="opacity-75 mb-0">operaciones matemáticas básicas</p>
+              <h1 class="h3 fw-bold mb-1">Resultados del Ejercicio 5</h1>
+              <p class="small opacity-80 mb-0">operaciones matemáticas básicas</p>
             </div>
             
-            <div class="card-body p-4 p-lg-5">
+            <div class="card-body p-4 p-md-5">
               <div class="table-responsive">
-                <!-- presentacion sistematica de datos mediante una tabla interactiva -->
+                <!-- tabla de resultados con integracion total de colores -->
                 <table class="table table-hover align-middle mb-0">
                   <thead>
-                    <tr class="text-uppercase small fw-bold text-muted">
-                      <th class="ps-4 py-3">Operación</th>
+                    <tr>
+                      <th class="ps-3 py-3">Operación</th>
                       <th class="text-center py-3">Resultado</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr style="border-top: 1px solid rgba(0,0,0,0.05);">
-                      <td class="ps-4 py-3 text-muted">suma (5 + 3)</td>
+                    <tr>
+                      <td class="ps-3 py-3">suma (5 + 3)</td>
                       <td class="text-center fw-bold text-primary">${suma(5, 3)}</td>
                     </tr>
                     <tr>
-                      <td class="ps-4 py-3 text-muted">resta (8 - 6)</td>
+                      <td class="ps-3 py-3">resta (8 - 6)</td>
                       <td class="text-center fw-bold text-danger">${resta(8, 6)}</td>
                     </tr>
                     <tr>
-                      <td class="ps-4 py-3 text-muted">multiplicación (3 * 11)</td>
+                      <td class="ps-3 py-3">multiplicación (3 * 11)</td>
                       <td class="text-center fw-bold text-success">${multiplicacion(3, 11)}</td>
                     </tr>
                     <tr>
-                      <td class="ps-4 py-3 text-muted">división (30 / 5)</td>
+                      <td class="ps-3 py-3">división (30 / 5)</td>
                       <td class="text-center fw-bold text-info">${division(30, 5)}</td>
                     </tr>
                   </tbody>
@@ -150,30 +166,30 @@ const server = http.createServer((req, res) => {
       </div>
     </div>
 
-    <!-- logica de cliente para la gestion de interactividad y persistencia de temas -->
+    <!-- scripts para la gestion de interactividad y persistencia del tema -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-      // mapeo de elementos del dom para la manipulacion dinamica
+      // mapeo selectivo de elementos para la manipulacion del dom
       const dom = {
         html: document.documentElement,
         botonTema: document.getElementById('boton-tema'),
         iconoTema: document.getElementById('icono-tema')
       };
 
-      // funcion para aplicar el esquema de colores y actualizar la interfaz visual
+      // logica para la aplicacion del tema y actualizacion de estados persistentes
       const aplicarTema = (tema) => { 
-        dom.html.setAttribute('data-bs-theme', tema); // cambio de atributo bootstrap
-        dom.iconoTema.textContent = tema === 'dark' ? '☀️' : '🌙'; // actualizacion de iconografia
-        localStorage.setItem('p1-tema', tema); // persistencia de la preferencia en el navegador
+        dom.html.setAttribute('data-bs-theme', tema); // actualizacion del atributo de bootstrap
+        dom.iconoTema.textContent = tema === 'dark' ? '☀️' : '🌙'; // alternancia de iconos
+        localStorage.setItem('p1-tema', tema); // almacenamiento de preferencia en memoria local
       }; 
       
-      // controlador de eventos para gestionar la alternancia de temas mediante interaccion
+      // gestion del evento click para la alternancia de esquemas de colores
       dom.botonTema.addEventListener('click', () => { 
         const actual = dom.html.getAttribute('data-bs-theme'); 
         aplicarTema(actual === 'dark' ? 'light' : 'dark'); // ejecucion del cambio de estado
       });
 
-      // inicializacion del tema basado en la persistencia local previa
+      // verificacion inicial del tema guardado para mantener la consistencia
       const temaGuardado = localStorage.getItem('p1-tema');
       if (temaGuardado) {
         aplicarTema(temaGuardado);
