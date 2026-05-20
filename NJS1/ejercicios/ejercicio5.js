@@ -16,21 +16,21 @@ const server = http.createServer((req, res) => {
     <!-- inclusion de librerias externas para el diseño responsivo y estilos base -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-      /* definicion de variables de color extraidas directamente de las capturas */
+      /* definicion de variables de color extraidas directamente de las capturas para integracion total */
       :root { 
           --bg-color: #f8fafc; 
           --nav-bg: #ffffff;
           --card-bg: #ffffff; 
           --text-color: #1e293b; 
           --text-muted: #64748b;
-          --accent-color: #a855f7; /* violeta de las capturas */
-          --border-color: #f1f5f9;
+          --accent-color: #a855f7; 
+          --border-color: #e2e8f0;
       } 
       
-      /* reconfiguracion de variables para el modo oscuro profundo de las capturas */
+      /* reconfiguracion de variables para el modo oscuro profundo de las capturas sin dejar espacios claros */
       [data-bs-theme="dark"] { 
-          --bg-color: #0f172a; 
-          --nav-bg: #1e293b;
+          --bg-color: #0b0f1a; 
+          --nav-bg: #111827;
           --card-bg: #1e293b; 
           --text-color: #f8fafc; 
           --text-muted: #94a3b8;
@@ -38,7 +38,7 @@ const server = http.createServer((req, res) => {
           --border-color: #334155;
       } 
       
-      /* transiciones suaves para el cambio de tema sin parpadeos */
+      /* transiciones suaves para el cambio de tema entre claro y oscuro */
       * { 
           transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important; 
       }
@@ -48,18 +48,23 @@ const server = http.createServer((req, res) => {
         background-color: var(--bg-color);
         color: var(--text-color);
         margin: 0;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        padding: 0;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        overflow-x: hidden;
       }
 
-      /* barra de navegacion superior exacta a la captura */
+      /* barra de navegacion superior que ocupa todo el ancho de la pantalla */
       .navbar {
         background-color: var(--nav-bg);
         border-bottom: 1px solid var(--border-color);
-        padding: 1rem 3rem;
+        padding: 1rem 2rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 100%;
+        width: 100vw;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
       }
 
       .navbar-brand {
@@ -67,13 +72,13 @@ const server = http.createServer((req, res) => {
         color: var(--accent-color);
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
       }
       
-      /* boton de tema circular minimalista segun la imagen */
+      /* diseño del boton de tema exactamente como en la captura: circular y minimalista */
       .btn-theme-toggle {
-        width: 38px;
-        height: 38px;
+        width: 34px;
+        height: 34px;
         background: transparent;
         border: 1px solid var(--border-color);
         border-radius: 50%;
@@ -81,16 +86,21 @@ const server = http.createServer((req, res) => {
         align-items: center;
         justify-content: center;
         cursor: pointer;
+        padding: 0;
         color: var(--text-color);
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        transition: all 0.2s ease;
       }
 
-      /* contenedor principal full-width con espaciado superior */
+      .btn-theme-toggle:hover {
+        border-color: var(--accent-color);
+        transform: scale(1.05);
+      }
+
+      /* contenedor principal que aprovecha el 100% del ancho sin restricciones */
       .main-content {
-        padding: 5rem 3rem;
+        padding: 4rem 2rem;
         width: 100%;
-        max-width: 1600px;
-        margin: 0 auto;
+        margin: 0;
         text-align: center;
       }
 
@@ -103,15 +113,15 @@ const server = http.createServer((req, res) => {
 
       .page-subtitle {
         color: var(--text-muted);
-        font-size: 1.25rem;
-        margin-bottom: 5rem;
+        font-size: 1.2rem;
+        margin-bottom: 4rem;
       }
 
-      /* diseño de tarjetas con bordes redondeados y badges numerados */
+      /* diseño de tarjetas anchas que ocupan la grilla completa */
       .card {
         background-color: var(--card-bg);
         border: 1px solid var(--border-color);
-        border-radius: 28px;
+        border-radius: 24px;
         box-shadow: 0 4px 20px rgba(0,0,0,0.03);
         padding: 2.5rem;
         height: 100%;
@@ -121,39 +131,40 @@ const server = http.createServer((req, res) => {
       .card-header-custom {
         display: flex;
         align-items: center;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
       }
 
-      /* badge circular numerado violeta */
+      /* badge numerado violeta segun la estetica de la captura */
       .badge-number {
-        width: 32px;
-        height: 32px;
+        width: 30px;
+        height: 30px;
         background-color: var(--accent-color);
         color: white;
-        border-radius: 50%;
+        border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: 700;
         margin-right: 1rem;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
       }
 
       .card-title {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         font-weight: 700;
         margin: 0;
       }
 
       .card-subtitle-custom {
         color: var(--text-muted);
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         margin-bottom: 2rem;
       }
 
-      /* estilos para la tabla integrada en la tarjeta */
+      /* tabla profesional adaptada al esquema de colores del sistema */
       .table {
         color: var(--text-color);
+        width: 100%;
       }
 
       .table thead th {
@@ -161,12 +172,12 @@ const server = http.createServer((req, res) => {
         color: var(--text-color);
         font-weight: 700;
         padding: 1rem 0;
-        font-size: 1.1rem;
+        font-size: 1rem;
       }
 
       .table tbody td {
         border-top: 1px solid var(--border-color);
-        padding: 1.2rem 0;
+        padding: 1rem 0;
         color: var(--text-muted);
       }
 
@@ -174,11 +185,20 @@ const server = http.createServer((req, res) => {
         font-weight: 700;
         text-align: center;
       }
+
+      .btn-add {
+        background-color: var(--accent-color);
+        border: none;
+        color: white;
+        font-weight: 600;
+        padding: 0.6rem 1.5rem;
+        border-radius: 12px;
+      }
     </style>
   </head>
   <body>
 
-    <!-- barra de navegacion superior -->
+    <!-- barra de navegacion superior full-width -->
     <nav class="navbar">
       <div class="navbar-brand">PROYECTO 1</div>
       <button id="boton-tema" class="btn-theme-toggle"> 
@@ -186,14 +206,14 @@ const server = http.createServer((req, res) => {
       </button>
     </nav>
 
-    <!-- contenido principal que aprovecha el ancho de pantalla -->
+    <!-- contenido principal que aprovecha todo el ancho disponible -->
     <div class="main-content">
       <h1 class="page-title">Generación de Archivos</h1>
       <p class="page-subtitle">Ingresa tus números y crea reportes profesionales.</p>
 
-      <div class="container-fluid px-0">
+      <div class="container-fluid">
         <div class="row g-4">
-          <!-- tarjeta izquierda: ingresar datos -->
+          <!-- tarjeta izquierda: configuracion de entrada de datos -->
           <div class="col-lg-6">
             <div class="card">
               <div class="card-header-custom">
@@ -203,20 +223,20 @@ const server = http.createServer((req, res) => {
               <p class="card-subtitle-custom">Escribe los números que deseas incluir en tu archivo TXT.</p>
               
               <div class="d-flex gap-2">
-                <input type="text" class="form-control p-3 rounded-4 bg-body-tertiary border-0" placeholder="Escribe un número aquí">
-                <button class="btn btn-primary px-4 rounded-4 fw-bold" style="background-color: var(--accent-color); border: none;">Añadir</button>
+                <input type="text" class="form-control p-3 rounded-4 bg-body-tertiary border-0" placeholder="Escribe un número aquí" style="background-color: rgba(0,0,0,0.03) !important;">
+                <button class="btn btn-add">Añadir</button>
               </div>
             </div>
           </div>
 
-          <!-- tarjeta derecha: numeros en cola / resultados -->
+          <!-- tarjeta derecha: visualizacion de resultados procesados -->
           <div class="col-lg-6">
             <div class="card">
               <div class="card-header-custom">
                 <div class="badge-number">2</div>
-                <h2 class="card-title">Resultados de Cálculos</h2>
+                <h2 class="card-title">Números en Cola</h2>
               </div>
-              <p class="card-subtitle-custom text-uppercase fw-bold small letter-spacing-1">total procesado: 4/20</p>
+              <p class="card-subtitle-custom text-uppercase fw-bold small">total cargados: 4/20</p>
               
               <div class="table-responsive">
                 <table class="table align-middle">
