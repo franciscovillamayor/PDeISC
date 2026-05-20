@@ -1,11 +1,11 @@
-// importamos los modulos necesarios para el servidor y los calculos
+// importacion de dependencias externas y modulos locales de calculo
 import http from 'http';
 import { suma, resta, multiplicacion, division } from './calculos.js';
 
-// creamos el servidor que va a manejar las peticiones del navegador
+// inicializacion del servidor http para procesar las solicitudes entrantes
 const server = http.createServer((req, res) => {
 
-  // aca armamos todo el contenido html que vamos a mostrar
+  // definicion de la estructura html5 y configuracion de la interfaz de usuario
   const html = `
   <!DOCTYPE html>
   <html lang="es" data-bs-theme="light">
@@ -13,9 +13,9 @@ const server = http.createServer((req, res) => {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultados de Cálculos</title>
-    <!-- traemos bootstrap para que todo se vea lindo y sea responsivo -->
+    <!-- inclusion de librerias externas para el diseño responsivo y estilos base -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- iconos de bootstrap para el botoncito del modo oscuro -->
+    <!-- recursos visuales para la iconografia de la interfaz -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
       body {
@@ -25,21 +25,21 @@ const server = http.createServer((req, res) => {
         justify-content: center;
         transition: background-color 0.3s ease;
       }
-      /* estilo para que la tarjeta se vea con relieve */
+      /* configuracion de estilos personalizados para los contenedores principales */
       .card {
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         border: none;
         border-radius: 15px;
         overflow: hidden;
       }
-      /* degradado fachero para el titulo */
+      /* diseño de la identidad visual mediante degradados corporativos */
       .header-section {
         background: linear-gradient(135deg, #0d6efd 0%, #00d2ff 100%);
         color: white;
         padding: 2rem;
         text-align: center;
       }
-      /* posicion del boton flotante para cambiar el tema */
+      /* configuracion del sistema de posicionamiento para el control de temas */
       .theme-toggle {
         position: fixed;
         top: 20px;
@@ -50,7 +50,7 @@ const server = http.createServer((req, res) => {
   </head>
   <body class="bg-body-tertiary">
 
-    <!-- boton flotante para switchar entre claro y oscuro -->
+    <!-- interfaz de control para la alternancia entre esquemas de colores -->
     <div class="theme-toggle">
       <button class="btn btn-outline-primary rounded-pill px-3" id="btnTema">
         <i class="bi bi-moon-stars-fill" id="iconoTema"></i>
@@ -62,7 +62,7 @@ const server = http.createServer((req, res) => {
       <div class="row justify-content-center">
         <div class="col-md-8">
           <div class="card">
-            <!-- cabecera con el titulo principal -->
+            <!-- seccion de encabezado que define el proposito del ejercicio -->
             <div class="header-section">
               <h1 class="display-6 mb-0">Resultados del Ejercicio 5</h1>
               <p class="lead mb-0">operaciones matemáticas básicas</p>
@@ -70,7 +70,7 @@ const server = http.createServer((req, res) => {
             
             <div class="card-body p-4">
               <div class="table-responsive">
-                <!-- tabla con los resultados de los calculos -->
+                <!-- presentacion sistematica de datos mediante una tabla interactiva -->
                 <table class="table table-hover table-bordered align-middle mb-0">
                   <thead class="table-light">
                     <tr>
@@ -104,7 +104,7 @@ const server = http.createServer((req, res) => {
       </div>
     </div>
 
-    <!-- scripts de bootstrap y la logica para el modo oscuro -->
+    <!-- logica de cliente para la gestion de interactividad y estilos dinamicos -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       const btnTema = document.getElementById('btnTema');
@@ -112,18 +112,18 @@ const server = http.createServer((req, res) => {
       const textoTema = document.getElementById('textoTema');
       const htmlTag = document.documentElement;
 
-      // funcion para cambiar el tema de forma dinamica
+      // controlador de eventos para la gestion dinamica del esquema de colores
       btnTema.addEventListener('click', () => {
         const temaActual = htmlTag.getAttribute('data-bs-theme');
         
         if (temaActual === 'light') {
-          // pasamos a modo oscuro
+          // transicion al esquema de colores oscuro
           htmlTag.setAttribute('data-bs-theme', 'dark');
           iconoTema.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
           textoTema.innerText = 'modo claro';
           btnTema.classList.replace('btn-outline-primary', 'btn-outline-warning');
         } else {
-          // volvemos a modo claro
+          // reversion al esquema de colores claro
           htmlTag.setAttribute('data-bs-theme', 'light');
           iconoTema.classList.replace('bi-sun-fill', 'bi-moon-stars-fill');
           textoTema.innerText = 'modo oscuro';
