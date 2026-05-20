@@ -12,7 +12,7 @@ const server = http.createServer((req, res) => {
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROYECTO 1</title>
+    <title>Ejercicio 5 - Resultados de Cálculos</title>
     <!-- inclusion de librerias externas para el diseño responsivo y estilos base -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -59,20 +59,12 @@ const server = http.createServer((req, res) => {
         border-bottom: 1px solid var(--border-color);
         padding: 1rem 2rem;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end; /* alinea el boton a la derecha sin titulo */
         align-items: center;
         width: 100vw;
         position: sticky;
         top: 0;
         z-index: 1000;
-      }
-
-      .navbar-brand {
-        font-weight: 700;
-        color: var(--accent-color);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        font-size: 1.1rem;
       }
       
       /* diseño del boton de tema exactamente como en la captura: circular y minimalista */
@@ -177,7 +169,7 @@ const server = http.createServer((req, res) => {
 
       .table tbody td {
         border-top: 1px solid var(--border-color);
-        padding: 1rem 0;
+        padding: 1.5rem 0;
         color: var(--text-muted);
       }
 
@@ -185,22 +177,12 @@ const server = http.createServer((req, res) => {
         font-weight: 700;
         text-align: center;
       }
-
-      .btn-add {
-        background-color: var(--accent-color);
-        border: none;
-        color: white;
-        font-weight: 600;
-        padding: 0.6rem 1.5rem;
-        border-radius: 12px;
-      }
     </style>
   </head>
   <body>
 
-    <!-- barra de navegacion superior full-width -->
+    <!-- barra de navegacion superior full-width solo con el boton -->
     <nav class="navbar">
-      <div class="navbar-brand">PROYECTO 1</div>
       <button id="boton-tema" class="btn-theme-toggle"> 
           <span id="icono-tema">🌙</span> 
       </button>
@@ -208,59 +190,43 @@ const server = http.createServer((req, res) => {
 
     <!-- contenido principal que aprovecha todo el ancho disponible -->
     <div class="main-content">
-      <h1 class="page-title">Generación de Archivos</h1>
-      <p class="page-subtitle">Ingresa tus números y crea reportes profesionales.</p>
+      <h1 class="page-title">Ejercicio 5</h1>
+      <p class="page-subtitle">Visualización de resultados de operaciones matemáticas básicas.</p>
 
       <div class="container-fluid">
-        <div class="row g-4">
-          <!-- tarjeta izquierda: configuracion de entrada de datos -->
-          <div class="col-lg-6">
+        <div class="row justify-content-center">
+          <!-- tarjeta de resultados centrada y ancha -->
+          <div class="col-12">
             <div class="card">
               <div class="card-header-custom">
-                <div class="badge-number">1</div>
-                <h2 class="card-title">Ingresar Datos</h2>
+                <div class="badge-number">📊</div>
+                <h2 class="card-title">Resultados de Cálculos</h2>
               </div>
-              <p class="card-subtitle-custom">Escribe los números que deseas incluir en tu archivo TXT.</p>
-              
-              <div class="d-flex gap-2">
-                <input type="text" class="form-control p-3 rounded-4 bg-body-tertiary border-0" placeholder="Escribe un número aquí" style="background-color: rgba(0,0,0,0.03) !important;">
-                <button class="btn btn-add">Añadir</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- tarjeta derecha: visualizacion de resultados procesados -->
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-header-custom">
-                <div class="badge-number">2</div>
-                <h2 class="card-title">Números en Cola</h2>
-              </div>
-              <p class="card-subtitle-custom text-uppercase fw-bold small">total cargados: 4/20</p>
+              <p class="card-subtitle-custom text-uppercase fw-bold small">valores procesados desde el módulo de cálculos</p>
               
               <div class="table-responsive">
                 <table class="table align-middle">
                   <thead>
                     <tr>
-                      <th>Operación</th>
-                      <th class="text-center">Resultado</th>
+                      <th class="ps-4">Operación Matemática</th>
+                      <th class="text-center">Resultado Final</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>suma (5 + 3)</td>
+                      <td class="ps-4">suma (5 + 3)</td>
                       <td class="result-value text-primary">${suma(5, 3)}</td>
                     </tr>
                     <tr>
-                      <td>resta (8 - 6)</td>
+                      <td class="ps-4">resta (8 - 6)</td>
                       <td class="result-value text-danger">${resta(8, 6)}</td>
                     </tr>
                     <tr>
-                      <td>multiplicación (3 * 11)</td>
+                      <td class="ps-4">multiplicación (3 * 11)</td>
                       <td class="result-value text-success">${multiplicacion(3, 11)}</td>
                     </tr>
                     <tr>
-                      <td>división (30 / 5)</td>
+                      <td class="ps-4">división (30 / 5)</td>
                       <td class="result-value text-info">${division(30, 5)}</td>
                     </tr>
                   </tbody>
