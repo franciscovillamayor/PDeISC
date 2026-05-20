@@ -16,7 +16,7 @@ const server = http.createServer((req, res) => {
     <!-- inclusion de librerias externas para el diseño responsivo y estilos base -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-      /* definicion de variables de color segun las capturas para integracion total */
+      /* definicion de variables de color extraidas directamente de las capturas */
       :root { 
           --bg-color: #f8fafc; 
           --nav-bg: #ffffff;
@@ -24,7 +24,7 @@ const server = http.createServer((req, res) => {
           --text-color: #1e293b; 
           --text-muted: #64748b;
           --accent-color: #a855f7; 
-          --border-color: #e2e8f0;
+          --border-color: #f1f5f9;
       } 
       
       /* reconfiguracion de variables para el modo oscuro profundo de las capturas */
@@ -38,7 +38,7 @@ const server = http.createServer((req, res) => {
           --border-color: #334155;
       } 
       
-      /* transiciones suaves para el cambio de tema entre claro y oscuro */
+      /* transiciones suaves para el cambio de tema sin parpadeos */
       * { 
           transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important; 
       }
@@ -53,24 +53,22 @@ const server = http.createServer((req, res) => {
         overflow-x: hidden;
       }
 
-      /* barra de navegacion superior que ocupa todo el ancho de la pantalla */
+      /* barra de navegacion superior exacta a la captura */
       .navbar {
         background-color: var(--nav-bg);
         border-bottom: 1px solid var(--border-color);
-        padding: 1rem 2rem;
+        padding: 1rem 3rem;
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        width: 100vw;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
+        width: 100%;
+        height: 70px;
       }
       
       /* diseño del boton de tema exactamente como en la captura: circular y minimalista */
       .btn-theme-toggle {
-        width: 34px;
-        height: 34px;
+        width: 38px;
+        height: 38px;
         background: transparent;
         border: 1px solid var(--border-color);
         border-radius: 50%;
@@ -80,13 +78,13 @@ const server = http.createServer((req, res) => {
         cursor: pointer;
         padding: 0;
         color: var(--text-color);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
       }
 
-      /* contenedor principal que aprovecha el 100% del ancho */
+      /* contenedor principal full-width que aprovecha todo el ancho de pantalla */
       .main-content {
-        padding: 4rem 2rem;
+        padding: 5rem 0;
         width: 100%;
-        margin: 0;
         text-align: center;
       }
 
@@ -99,29 +97,31 @@ const server = http.createServer((req, res) => {
 
       .page-subtitle {
         color: var(--text-muted);
-        font-size: 1.2rem;
-        margin-bottom: 4rem;
+        font-size: 1.25rem;
+        margin-bottom: 5rem;
       }
 
-      /* diseño de tarjeta ancha para los resultados */
+      /* diseño de tarjeta ancha segun la captura: bordes redondeados y badge numerado */
       .card {
         background-color: var(--card-bg);
         border: 1px solid var(--border-color);
-        border-radius: 24px;
+        border-radius: 28px;
         box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-        padding: 2.5rem;
+        padding: 3rem;
         text-align: left;
+        width: 100%;
       }
 
       .card-header-custom {
         display: flex;
         align-items: center;
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
       }
 
+      /* badge cuadrado redondeado violeta de la captura */
       .badge-icon {
-        width: 30px;
-        height: 30px;
+        width: 32px;
+        height: 32px;
         background-color: var(--accent-color);
         color: white;
         border-radius: 10px;
@@ -130,15 +130,16 @@ const server = http.createServer((req, res) => {
         justify-content: center;
         font-weight: 700;
         margin-right: 1rem;
+        font-size: 0.9rem;
       }
 
       .card-title {
-        font-size: 1.4rem;
+        font-size: 1.6rem;
         font-weight: 700;
         margin: 0;
       }
 
-      /* tabla profesional adaptada al esquema de colores */
+      /* tabla profesional integrada en la tarjeta sin bordes innecesarios */
       .table {
         color: var(--text-color);
         width: 100%;
@@ -149,7 +150,8 @@ const server = http.createServer((req, res) => {
         border: none;
         color: var(--text-color);
         font-weight: 700;
-        padding: 1rem 0;
+        padding: 1.2rem 0;
+        font-size: 1.1rem;
       }
 
       .table tbody td {
@@ -173,43 +175,43 @@ const server = http.createServer((req, res) => {
       </button>
     </nav>
 
-    <!-- contenido principal que aprovecha todo el ancho disponible -->
+    <!-- contenido principal que aprovecha el 100% del ancho de pantalla -->
     <div class="main-content">
-      <h1 class="page-title">Resultados del Ejercicio 5</h1>
-      <p class="page-subtitle">Operaciones matemáticas calculadas mediante módulos.</p>
+      <h1 class="page-title">Generación de Archivos</h1>
+      <p class="page-subtitle">Visualización de resultados del ejercicio 5.</p>
 
       <div class="container-fluid">
-        <div class="row justify-content-center">
+        <div class="row">
           <div class="col-12">
             <div class="card">
               <div class="card-header-custom">
                 <div class="badge-icon">📊</div>
-                <h2 class="card-title">Cálculos Procesados</h2>
+                <h2 class="card-title">Resultados de Cálculos</h2>
               </div>
               
               <div class="table-responsive">
                 <table class="table align-middle">
                   <thead>
                     <tr>
-                      <th class="ps-4">Operación</th>
+                      <th class="ps-3">Operación Matemática</th>
                       <th class="text-center">Resultado</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td class="ps-4">suma (5 + 3)</td>
+                      <td class="ps-3">suma (5 + 3)</td>
                       <td class="result-value text-primary">${suma(5, 3)}</td>
                     </tr>
                     <tr>
-                      <td class="ps-4">resta (8 - 6)</td>
+                      <td class="ps-3">resta (8 - 6)</td>
                       <td class="result-value text-danger">${resta(8, 6)}</td>
                     </tr>
                     <tr>
-                      <td class="ps-4">multiplicación (3 * 11)</td>
+                      <td class="ps-3">multiplicación (3 * 11)</td>
                       <td class="result-value text-success">${multiplicacion(3, 11)}</td>
                     </tr>
                     <tr>
-                      <td class="ps-4">división (30 / 5)</td>
+                      <td class="ps-3">división (30 / 5)</td>
                       <td class="result-value text-info">${division(30, 5)}</td>
                     </tr>
                   </tbody>
