@@ -12,72 +12,67 @@ const server = http.createServer((req, res) => {
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados de Cálculos</title>
+    <title>PROYECTO 1 - Generación de Archivos</title>
     <!-- inclusion de librerias externas para el diseño responsivo y estilos base -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-      /* definicion de variables de color para una transicion total entre temas */
+      /* definicion de variables de color segun las capturas para una integracion total */
       :root { 
           --bg-color: #f8fafc; 
+          --nav-bg: #ffffff;
           --card-bg: #ffffff; 
           --text-color: #1e293b; 
+          --text-muted: #64748b;
+          --accent-color: #a855f7;
           --border-color: #e2e8f0;
-          --header-gradient: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
       } 
       
-      /* reconfiguracion de todas las variables para el modo oscuro sin dejar partes blancas */
+      /* reconfiguracion de variables para el modo oscuro profundo */
       [data-bs-theme="dark"] { 
           --bg-color: #0f172a; 
+          --nav-bg: #1e293b;
           --card-bg: #1e293b; 
-          --text-color: #f1f5f9; 
+          --text-color: #f8fafc; 
+          --text-muted: #94a3b8;
+          --accent-color: #c084fc;
           --border-color: #334155;
-          --header-gradient: linear-gradient(135deg, #1e40af 0%, #0d9488 100%);
       } 
       
-      /* configuracion de transiciones globales para suavizar el cambio de colores */
+      /* transiciones suaves para evitar parpadeos al cambiar de tema */
       * { 
-          transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease !important; 
+          transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important; 
       }
 
       body {
         min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         background-color: var(--bg-color);
         color: var(--text-color);
         margin: 0;
-      }
-      
-      /* diseño de la tarjeta contenedora con adaptacion automatica de colores */
-      .card {
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        border: 1px solid var(--border-color);
-        border-radius: 24px;
-        overflow: hidden;
-        background-color: var(--card-bg);
-      }
-      
-      /* seccion de cabecera con gradiente adaptativo */
-      .header-section {
-        background: var(--header-gradient);
-        color: white;
-        padding: 3rem 2rem;
-        text-align: center;
-      }
-      
-      /* sistema de control flotante para el cambio de tema */
-      .theme-toggle {
-        position: fixed;
-        top: 30px;
-        right: 30px;
-        z-index: 1000;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       }
 
-      /* diseño del boton segun especificacion: circular, borde fino y pequeño */
+      /* barra de navegacion superior full-width */
+      .navbar {
+        background-color: var(--nav-bg);
+        border-bottom: 1px solid var(--border-color);
+        padding: 0.75rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
+
+      .navbar-brand {
+        font-weight: 700;
+        color: var(--accent-color);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      
+      /* diseño del boton de tema circular y minimalista segun captura */
       .btn-theme-toggle {
-        width: 42px;
-        height: 42px;
+        width: 36px;
+        height: 36px;
         background: transparent;
         border: 1px solid var(--border-color);
         border-radius: 50%;
@@ -87,78 +82,111 @@ const server = http.createServer((req, res) => {
         cursor: pointer;
         padding: 0;
         color: var(--text-color);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       }
 
       .btn-theme-toggle:hover {
-        border-color: #3b82f6;
-        transform: scale(1.05);
+        border-color: var(--accent-color);
+        background-color: rgba(168, 85, 247, 0.1);
       }
 
-      /* ajuste de la tabla para que sea totalmente oscura en su modo correspondiente */
+      /* contenedor principal que aprovecha todo el ancho */
+      .main-content {
+        padding: 4rem 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .page-title {
+        font-weight: 800;
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .page-subtitle {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        margin-bottom: 4rem;
+      }
+
+      /* diseño de tarjetas anchas y modernas */
+      .card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 24px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        overflow: hidden;
+        text-align: left;
+      }
+
       .table {
         color: var(--text-color);
-        border-color: var(--border-color);
+        margin-bottom: 0;
       }
-      
+
       .table thead th {
-        border-bottom: 2px solid var(--border-color);
-        color: var(--text-color);
-        opacity: 0.7;
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        letter-spacing: 0.05em;
+        border-bottom: 1px solid var(--border-color);
+        color: var(--text-muted);
+        font-weight: 600;
+        padding: 1.5rem;
+      }
+
+      .table tbody td {
+        border-bottom: 1px solid var(--border-color);
+        padding: 1.5rem;
       }
     </style>
   </head>
   <body>
 
-    <!-- boton de control de tema minimalista circular -->
-    <div class="theme-toggle">
+    <!-- barra de navegacion superior -->
+    <nav class="navbar">
+      <div class="navbar-brand">PROYECTO 1</div>
       <button id="boton-tema" class="btn-theme-toggle" title="cambiar tema"> 
-          <span id="icono-tema" style="font-size: 1.2rem;">🌙</span> 
+          <span id="icono-tema">🌙</span> 
       </button>
-    </div>
+    </nav>
 
-    <div class="container my-5">
-      <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
-          <div class="card">
-            <!-- encabezado principal con tipografia refinada -->
-            <div class="header-section">
-              <h1 class="h3 fw-bold mb-1">Resultados del Ejercicio 5</h1>
-              <p class="small opacity-80 mb-0">operaciones matemáticas básicas</p>
-            </div>
-            
-            <div class="card-body p-4 p-md-5">
-              <div class="table-responsive">
-                <!-- tabla de resultados con integracion total de colores -->
-                <table class="table table-hover align-middle mb-0">
-                  <thead>
-                    <tr>
-                      <th class="ps-3 py-3">Operación</th>
-                      <th class="text-center py-3">Resultado</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td class="ps-3 py-3">suma (5 + 3)</td>
-                      <td class="text-center fw-bold text-primary">${suma(5, 3)}</td>
-                    </tr>
-                    <tr>
-                      <td class="ps-3 py-3">resta (8 - 6)</td>
-                      <td class="text-center fw-bold text-danger">${resta(8, 6)}</td>
-                    </tr>
-                    <tr>
-                      <td class="ps-3 py-3">multiplicación (3 * 11)</td>
-                      <td class="text-center fw-bold text-success">${multiplicacion(3, 11)}</td>
-                    </tr>
-                    <tr>
-                      <td class="ps-3 py-3">división (30 / 5)</td>
-                      <td class="text-center fw-bold text-info">${division(30, 5)}</td>
-                    </tr>
-                  </tbody>
-                </table>
+    <!-- contenido principal full-width -->
+    <div class="main-content">
+      <h1 class="page-title">Generación de Archivos</h1>
+      <p class="page-subtitle">Ingresa tus números y crea reportes profesionales.</p>
+
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <!-- presentacion de datos mediante tabla profesional -->
+                  <table class="table table-hover align-middle">
+                    <thead>
+                      <tr>
+                        <th>Operación Matemática</th>
+                        <th class="text-center">Resultado Obtenido</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="ps-4">suma (5 + 3)</td>
+                        <td class="text-center fw-bold text-primary">${suma(5, 3)}</td>
+                      </tr>
+                      <tr>
+                        <td class="ps-4">resta (8 - 6)</td>
+                        <td class="text-center fw-bold text-danger">${resta(8, 6)}</td>
+                      </tr>
+                      <tr>
+                        <td class="ps-4">multiplicación (3 * 11)</td>
+                        <td class="text-center fw-bold text-success">${multiplicacion(3, 11)}</td>
+                      </tr>
+                      <tr>
+                        <td class="ps-4">división (30 / 5)</td>
+                        <td class="text-center fw-bold text-info">${division(30, 5)}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
