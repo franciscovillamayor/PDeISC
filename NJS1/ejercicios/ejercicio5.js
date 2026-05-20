@@ -16,23 +16,25 @@ const server = http.createServer((req, res) => {
     <!-- inclusion de librerias externas para el diseño responsivo y estilos base -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-      /* definicion de variables de color para la gestion de temas */
+      /* definicion de variables de color para la gestion de temas con tonalidades mas suaves */
       :root { 
-          --bg-light: #f8fafc; 
+          --bg-light: #f1f5f9; 
           --card-bg: #ffffff; 
-          --text-main: #1e293b !important; 
+          --text-main: #334155 !important; 
+          --accent-color: #3b82f6;
       } 
       
-      /* reconfiguracion de variables para el esquema de colores oscuro */
+      /* reconfiguracion de variables para el esquema de colores oscuro con tonos slate */
       [data-bs-theme="dark"] { 
           --bg-light: #0f172a; 
           --card-bg: #1e293b; 
-          --text-main: #f8fafc !important; 
+          --text-main: #f1f5f9 !important; 
+          --accent-color: #60a5fa;
       } 
       
       /* configuracion de transiciones globales para optimizar la experiencia visual */
       * { 
-          transition: background-color 0.3s ease, color 0.3s ease !important; 
+          transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease !important; 
       }
 
       body {
@@ -41,38 +43,55 @@ const server = http.createServer((req, res) => {
         align-items: center;
         justify-content: center;
         background-color: var(--bg-light);
+        color: var(--text-main);
       }
       
       /* configuracion de estilos personalizados para los contenedores principales */
       .card {
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        border: none;
-        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 20px;
         overflow: hidden;
         background-color: var(--card-bg);
       }
       
-      /* diseño de la identidad visual mediante degradados corporativos */
+      /* diseño de la identidad visual mediante degradados mas suaves y modernos */
       .header-section {
-        background: linear-gradient(135deg, #0d6efd 0%, #00d2ff 100%);
+        background: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
         color: white;
-        padding: 2rem;
+        padding: 2.5rem;
         text-align: center;
       }
       
       /* configuracion del sistema de posicionamiento para el control de temas */
       .theme-toggle {
         position: fixed;
-        top: 20px;
-        right: 20px;
+        top: 25px;
+        right: 25px;
         z-index: 1000;
       }
 
+      /* diseño del boton de tema: mas pequeño, perfectamente circular y minimalista */
       .btn-theme-toggle {
-        font-size: 1.5rem;
-        padding: 0.5rem 1rem;
+        width: 38px;
+        height: 38px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border-radius: 50%;
-        line-height: 1;
+        border: 1px solid var(--accent-color);
+        background-color: var(--card-bg);
+        color: var(--accent-color);
+        font-size: 1.1rem;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      }
+
+      .btn-theme-toggle:hover {
+        transform: scale(1.1);
+        background-color: var(--accent-color);
+        color: white;
       }
     </style>
   </head>
@@ -80,7 +99,7 @@ const server = http.createServer((req, res) => {
 
     <!-- interfaz de control para la alternancia entre esquemas de colores -->
     <div class="theme-toggle">
-      <button id="boton-tema" class="btn btn-outline-primary btn-theme-toggle"> 
+      <button id="boton-tema" class="btn-theme-toggle" title="cambiar tema"> 
           <span id="icono-tema">🌙</span> 
       </button>
     </div>
@@ -91,35 +110,35 @@ const server = http.createServer((req, res) => {
           <div class="card">
             <!-- seccion de encabezado que define el proposito del ejercicio -->
             <div class="header-section">
-              <h1 class="display-6 mb-0">Resultados del Ejercicio 5</h1>
-              <p class="lead mb-0">operaciones matemáticas básicas</p>
+              <h1 class="display-6 fw-bold mb-0">Resultados del Ejercicio 5</h1>
+              <p class="opacity-75 mb-0">operaciones matemáticas básicas</p>
             </div>
             
-            <div class="card-body p-4">
+            <div class="card-body p-4 p-lg-5">
               <div class="table-responsive">
                 <!-- presentacion sistematica de datos mediante una tabla interactiva -->
-                <table class="table table-hover table-bordered align-middle mb-0">
-                  <thead class="table-light">
-                    <tr>
-                      <th class="text-center">Operación</th>
-                      <th class="text-center">Resultado</th>
+                <table class="table table-hover align-middle mb-0">
+                  <thead>
+                    <tr class="text-uppercase small fw-bold text-muted">
+                      <th class="ps-4 py-3">Operación</th>
+                      <th class="text-center py-3">Resultado</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td class="ps-4">suma (5 + 3)</td>
+                    <tr style="border-top: 1px solid rgba(0,0,0,0.05);">
+                      <td class="ps-4 py-3 text-muted">suma (5 + 3)</td>
                       <td class="text-center fw-bold text-primary">${suma(5, 3)}</td>
                     </tr>
                     <tr>
-                      <td class="ps-4">resta (8 - 6)</td>
+                      <td class="ps-4 py-3 text-muted">resta (8 - 6)</td>
                       <td class="text-center fw-bold text-danger">${resta(8, 6)}</td>
                     </tr>
                     <tr>
-                      <td class="ps-4">multiplicación (3 * 11)</td>
+                      <td class="ps-4 py-3 text-muted">multiplicación (3 * 11)</td>
                       <td class="text-center fw-bold text-success">${multiplicacion(3, 11)}</td>
                     </tr>
                     <tr>
-                      <td class="ps-4">división (30 / 5)</td>
+                      <td class="ps-4 py-3 text-muted">división (30 / 5)</td>
                       <td class="text-center fw-bold text-info">${division(30, 5)}</td>
                     </tr>
                   </tbody>
