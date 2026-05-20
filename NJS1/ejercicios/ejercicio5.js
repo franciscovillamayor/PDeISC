@@ -12,11 +12,11 @@ const server = http.createServer((req, res) => {
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejercicio 5 - Resultados de Cálculos</title>
+    <title>Ejercicio 5</title>
     <!-- inclusion de librerias externas para el diseño responsivo y estilos base -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-      /* definicion de variables de color extraidas directamente de las capturas para integracion total */
+      /* definicion de variables de color segun las capturas para integracion total */
       :root { 
           --bg-color: #f8fafc; 
           --nav-bg: #ffffff;
@@ -27,7 +27,7 @@ const server = http.createServer((req, res) => {
           --border-color: #e2e8f0;
       } 
       
-      /* reconfiguracion de variables para el modo oscuro profundo de las capturas sin dejar espacios claros */
+      /* reconfiguracion de variables para el modo oscuro profundo de las capturas */
       [data-bs-theme="dark"] { 
           --bg-color: #0b0f1a; 
           --nav-bg: #111827;
@@ -59,7 +59,7 @@ const server = http.createServer((req, res) => {
         border-bottom: 1px solid var(--border-color);
         padding: 1rem 2rem;
         display: flex;
-        justify-content: flex-end; /* alinea el boton a la derecha sin titulo */
+        justify-content: flex-end;
         align-items: center;
         width: 100vw;
         position: sticky;
@@ -80,15 +80,9 @@ const server = http.createServer((req, res) => {
         cursor: pointer;
         padding: 0;
         color: var(--text-color);
-        transition: all 0.2s ease;
       }
 
-      .btn-theme-toggle:hover {
-        border-color: var(--accent-color);
-        transform: scale(1.05);
-      }
-
-      /* contenedor principal que aprovecha el 100% del ancho sin restricciones */
+      /* contenedor principal que aprovecha el 100% del ancho */
       .main-content {
         padding: 4rem 2rem;
         width: 100%;
@@ -109,14 +103,13 @@ const server = http.createServer((req, res) => {
         margin-bottom: 4rem;
       }
 
-      /* diseño de tarjetas anchas que ocupan la grilla completa */
+      /* diseño de tarjeta ancha para los resultados */
       .card {
         background-color: var(--card-bg);
         border: 1px solid var(--border-color);
         border-radius: 24px;
         box-shadow: 0 4px 20px rgba(0,0,0,0.03);
         padding: 2.5rem;
-        height: 100%;
         text-align: left;
       }
 
@@ -126,8 +119,7 @@ const server = http.createServer((req, res) => {
         margin-bottom: 1.5rem;
       }
 
-      /* badge numerado violeta segun la estetica de la captura */
-      .badge-number {
+      .badge-icon {
         width: 30px;
         height: 30px;
         background-color: var(--accent-color);
@@ -138,7 +130,6 @@ const server = http.createServer((req, res) => {
         justify-content: center;
         font-weight: 700;
         margin-right: 1rem;
-        font-size: 0.85rem;
       }
 
       .card-title {
@@ -147,16 +138,11 @@ const server = http.createServer((req, res) => {
         margin: 0;
       }
 
-      .card-subtitle-custom {
-        color: var(--text-muted);
-        font-size: 0.9rem;
-        margin-bottom: 2rem;
-      }
-
-      /* tabla profesional adaptada al esquema de colores del sistema */
+      /* tabla profesional adaptada al esquema de colores */
       .table {
         color: var(--text-color);
         width: 100%;
+        margin-top: 1rem;
       }
 
       .table thead th {
@@ -164,7 +150,6 @@ const server = http.createServer((req, res) => {
         color: var(--text-color);
         font-weight: 700;
         padding: 1rem 0;
-        font-size: 1rem;
       }
 
       .table tbody td {
@@ -181,7 +166,7 @@ const server = http.createServer((req, res) => {
   </head>
   <body>
 
-    <!-- barra de navegacion superior full-width solo con el boton -->
+    <!-- barra de navegacion superior full-width -->
     <nav class="navbar">
       <button id="boton-tema" class="btn-theme-toggle"> 
           <span id="icono-tema">🌙</span> 
@@ -190,26 +175,24 @@ const server = http.createServer((req, res) => {
 
     <!-- contenido principal que aprovecha todo el ancho disponible -->
     <div class="main-content">
-      <h1 class="page-title">Ejercicio 5</h1>
-      <p class="page-subtitle">Visualización de resultados de operaciones matemáticas básicas.</p>
+      <h1 class="page-title">Resultados del Ejercicio 5</h1>
+      <p class="page-subtitle">Operaciones matemáticas calculadas mediante módulos.</p>
 
       <div class="container-fluid">
         <div class="row justify-content-center">
-          <!-- tarjeta de resultados centrada y ancha -->
           <div class="col-12">
             <div class="card">
               <div class="card-header-custom">
-                <div class="badge-number">📊</div>
-                <h2 class="card-title">Resultados de Cálculos</h2>
+                <div class="badge-icon">📊</div>
+                <h2 class="card-title">Cálculos Procesados</h2>
               </div>
-              <p class="card-subtitle-custom text-uppercase fw-bold small">valores procesados desde el módulo de cálculos</p>
               
               <div class="table-responsive">
                 <table class="table align-middle">
                   <thead>
                     <tr>
-                      <th class="ps-4">Operación Matemática</th>
-                      <th class="text-center">Resultado Final</th>
+                      <th class="ps-4">Operación</th>
+                      <th class="text-center">Resultado</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -241,27 +224,23 @@ const server = http.createServer((req, res) => {
     <!-- logica de cliente para la gestion de interactividad y persistencia del tema -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-      // mapeo selectivo de elementos para la manipulacion del dom
       const dom = {
         html: document.documentElement,
         botonTema: document.getElementById('boton-tema'),
         iconoTema: document.getElementById('icono-tema')
       };
 
-      // logica para la aplicacion del tema y actualizacion de estados persistentes
       const aplicarTema = (tema) => { 
-        dom.html.setAttribute('data-bs-theme', tema); // actualizacion del atributo de bootstrap
-        dom.iconoTema.textContent = tema === 'dark' ? '☀️' : '🌙'; // alternancia de iconos
-        localStorage.setItem('p1-tema', tema); // almacenamiento de preferencia en memoria local
+        dom.html.setAttribute('data-bs-theme', tema);
+        dom.iconoTema.textContent = tema === 'dark' ? '☀️' : '🌙';
+        localStorage.setItem('p1-tema', tema);
       }; 
       
-      // gestion del evento click para la alternancia de esquemas de colores
       dom.botonTema.addEventListener('click', () => { 
         const actual = dom.html.getAttribute('data-bs-theme'); 
-        aplicarTema(actual === 'dark' ? 'light' : 'dark'); // ejecucion del cambio de estado
+        aplicarTema(actual === 'dark' ? 'light' : 'dark');
       });
 
-      // verificacion inicial del tema guardado para mantener la consistencia
       const temaGuardado = localStorage.getItem('p1-tema');
       if (temaGuardado) {
         aplicarTema(temaGuardado);
