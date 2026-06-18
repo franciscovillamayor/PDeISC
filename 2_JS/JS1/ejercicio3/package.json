@@ -1,0 +1,9 @@
+{
+  "name": "ejercicio3",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "ejercicio 3 usando unshift() y evento keydown",
+  "scripts": {
+    "start": "node Server.js"
+  }
+}

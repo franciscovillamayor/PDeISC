@@ -1,0 +1,9 @@
+{
+  "name": "ejercicio4",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "ejercicio 4 usando shift() y evento dblclick",
+  "scripts": {
+    "start": "node Server.js"
+  }
+}

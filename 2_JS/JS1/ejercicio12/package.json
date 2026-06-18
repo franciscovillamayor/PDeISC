@@ -1,0 +1,9 @@
+{
+  "name": "ejercicio12",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "ejercicio 12 usando reduce() y evento mouseenter",
+  "scripts": {
+    "start": "node Server.js"
+  }
+}

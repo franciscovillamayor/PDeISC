@@ -1,0 +1,9 @@
+{
+  "name": "ejercicio6",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "ejercicio 6 usando slice() y evento mouseup",
+  "scripts": {
+    "start": "node Server.js"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "ejercicio2",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "ejercicio 2 usando pop() y evento click",
+  "scripts": {
+    "start": "node Server.js"
+  }
+}

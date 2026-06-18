@@ -1,0 +1,9 @@
+{
+  "name": "ejercicio5",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "ejercicio 5 usando splice() y evento contextmenu",
+  "scripts": {
+    "start": "node Server.js"
+  }
+}

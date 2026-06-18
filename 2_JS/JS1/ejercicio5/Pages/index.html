@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 5: splice()</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/Styles/styles.css">
+</head>
+<body class="min-vh-100">
+    <div class="container-fluid p-0 d-flex flex-column min-vh-100">
+        <!-- Header -->
+        <header class="bg-warning text-dark p-4 d-flex justify-content-between align-items-center shadow-lg">
+            <h1 class="mb-0 flex-grow-1 text-center fw-bold display-4">Ejercicio 5: splice()</h1>
+            <button id="boton-tema" class="btn btn-outline-dark btn-lg border-0 rounded-pill px-4">
+                <span id="icono-tema" class="fs-2">🌙</span>
+            </button>
+        </header>
+
+        <!-- Main Content - Dos Columnas -->
+        <main class="flex-grow-1">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Columna Izquierda: Datos Base y Estado -->
+                    <div class="col-lg-5 col-xl-6 bg-gradient-to-br-left p-4">
+                        <div class="d-flex flex-column gap-4">
+                            <!-- Estado de Arrays -->
+                            <div class="card shadow-lg border-0 rounded-4">
+                                <div class="card-header bg-warning text-dark p-3 rounded-top-4">
+                                    <h3 class="mb-0 fw-bold text-center">Estado de los Arrays</h3>
+                                </div>
+                                <div class="card-body p-4">
+                                    <div class="mb-4">
+                                        <h5 class="fw-bold text-primary mb-2">🔤 Letras:</h5>
+                                        <div id="estado-letras" class="alert alert-primary rounded-3 p-3 mb-0"></div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <h5 class="fw-bold text-success mb-2">👥 Nombres:</h5>
+                                        <div id="estado-nombres" class="alert alert-success rounded-3 p-3 mb-0"></div>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold text-danger mb-2">🔢 Reemplazos:</h5>
+                                        <div id="estado-reemplazos" class="alert alert-danger rounded-3 p-3 mb-0"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Información del Método -->
+                            <div class="card shadow-lg border-0 rounded-4">
+                                <div class="card-header bg-primary text-white p-3 rounded-top-4">
+                                    <h3 class="mb-0 fw-bold text-center">ℹ️ Método splice()</h3>
+                                </div>
+                                <div class="card-body p-4">
+                                    <p class="mb-3"><strong>splice()</strong> modifica un array eliminando, reemplazando o agregando elementos en una posición específica.</p>
+                                    <ul class="list-unstyled mb-0">
+                                        <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Sintaxis: array.splice(inicio, eliminar, ...agregar)</li>
+                                        <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Modifica el array original</li>
+                                        <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Devuelve los elementos eliminados</li>
+                                        <li><i class="bi bi-check-circle text-success"></i> Versátil para múltiples operaciones</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Interfaz Interactiva -->
+                    <div class="col-lg-7 col-xl-6 bg-gradient-to-br-right p-4">
+                        <div class="d-flex flex-column gap-4">
+                            <!-- Panel 1: Eliminar Letras -->
+                            <div class="card shadow-lg border-0 rounded-4">
+                                <div class="card-header bg-primary text-white p-4 rounded-top-4">
+                                    <h3 class="mb-0 fw-bold text-center">1. Eliminar Letras</h3>
+                                </div>
+                                <div class="card-body p-4">
+                                    <p class="text-muted mb-4">Elimina 2 elementos desde la posición 1</p>
+                                    <button id="btn-eliminar-letras" class="btn btn-primary btn-lg w-100 fw-bold shadow-sm mb-4">Eliminar</button>
+                                    <div id="msg-letras" class="alert alert-primary p-3 d-none rounded-3"></div>
+                                </div>
+                            </div>
+
+                            <!-- Panel 2: Insertar Nombre -->
+                            <div class="card shadow-lg border-0 rounded-4">
+                                <div class="card-header bg-success text-white p-4 rounded-top-4">
+                                    <h3 class="mb-0 fw-bold text-center">2. Insertar Nombre</h3>
+                                </div>
+                                <div class="card-body p-4">
+                                    <p class="text-muted mb-4">Insertar en la posición 1 sin eliminar nada</p>
+                                    <form id="form-nombre" class="mb-4">
+                                        <div class="input-group input-group-lg">
+                                            <input type="text" id="input-nombre" class="form-control" placeholder="Nombre" required>
+                                            <button class="btn btn-success fw-bold" type="submit">+ Insertar</button>
+                                        </div>
+                                    </form>
+                                    <div id="msg-nombres" class="alert alert-success p-3 d-none rounded-3"></div>
+                                </div>
+                            </div>
+
+                            <!-- Panel 3: Reemplazos Individuales -->
+                            <div class="card shadow-lg border-0 rounded-4">
+                                <div class="card-header bg-danger text-white p-4 rounded-top-4">
+                                    <h3 class="mb-0 fw-bold text-center">3. Reemplazos Individuales</h3>
+                                </div>
+                                <div class="card-body p-4">
+                                    <form id="form-reemplazo" class="mb-4">
+                                        <div class="row g-3 mb-3">
+                                            <div class="col-md-6">
+                                                <h6 class="fw-bold">Reemplazo 1:</h6>
+                                                <input type="number" id="input-pos1" class="form-control mb-2" placeholder="Posición" required min="0">
+                                                <input type="text" id="input-nuevo1" class="form-control" placeholder="Nuevo Valor" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="fw-bold">Reemplazo 2:</h6>
+                                                <input type="number" id="input-pos2" class="form-control mb-2" placeholder="Posición" required min="0">
+                                                <input type="text" id="input-nuevo2" class="form-control" placeholder="Nuevo Valor" required>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-danger btn-lg w-100 fw-bold shadow-sm" type="submit">Reemplazar Ambos</button>
+                                    </form>
+                                    <div id="msg-reemplazos" class="alert alert-danger p-3 d-none rounded-3"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/Scripts/main.js" type="module"></script>
+</body>
+</html>

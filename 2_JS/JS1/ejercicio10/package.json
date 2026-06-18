@@ -1,0 +1,9 @@
+{
+  "name": "ejercicio10",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "ejercicio 10 usando map() y evento change",
+  "scripts": {
+    "start": "node Server.js"
+  }
+}

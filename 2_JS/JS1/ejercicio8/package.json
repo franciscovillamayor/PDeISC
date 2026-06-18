@@ -1,0 +1,9 @@
+{
+  "name": "ejercicio8",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "ejercicio 8 usando includes() y evento blur",
+  "scripts": {
+    "start": "node Server.js"
+  }
+}
